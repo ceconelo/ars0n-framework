@@ -6,7 +6,7 @@ class Timer:
     def __init__(self):
         self.start = datetime.now()
         self.stop = None
-    
+
     def stop_timer(self):
         self.stop = datetime.now()
 
@@ -15,7 +15,7 @@ class Timer:
 
     def get_stop(self):
         return self.stop.strftime("%H:%M:%S")
-    
+
 def flask_cors_check():
     flask_cors_check = subprocess.run([f"pip3 show flask_cors"], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, shell=True)
     if flask_cors_check.returncode == 0:
@@ -29,7 +29,7 @@ def install_flask_cors():
     if install_check.returncode == 0:
         print("[+] Flask_CORS was installed successfully!")
     else:
-        print("[!] Something went wrong!  Flask_CORS was NOT installed successfully...")    
+        print("[!] Something went wrong!  Flask_CORS was NOT installed successfully...")
 
 def awscli_check():
     flask_cors_check = subprocess.run([f"aws --version"], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, shell=True)
@@ -44,7 +44,7 @@ def install_awscli():
     if install_check.returncode == 0:
         print("[+] AWS CLI was installed successfully!")
     else:
-        print("[!] Something went wrong!  AWS CLI was NOT installed successfully...")    
+        print("[!] Something went wrong!  AWS CLI was NOT installed successfully...")
 
 def tools_dir_check():
     home_dir = get_home_dir()
@@ -383,7 +383,7 @@ def mongodb_check():
     return False
 
 def install_mongodb():
-    mongodb_install = subprocess.run(["""sudo sh -c 'wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -; echo "deb [arch=amd64] https://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" >> /etc/apt/sources.list.d/mongodb-org-4.4.list'; sudo apt-get update ; wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2_amd64.deb; sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2_amd64.deb; rm libssl1.1_1.1.1f-1ubuntu2_amd64.deb; sudo apt-get remove mongodb-server-core ; sudo apt-get install -y mongodb-org ; sudo systemctl start mongod ; sudo systemctl enable mongod"""], shell=True)
+    mongodb_install = subprocess.run(["""sudo sh -c 'curl -fsSL https://pgp.mongodb.com/server-4.4.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-4.4.gpg --dearmor'; 'echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-4.4.gpg ] http://repo.mongodb.org/apt/debian buster/mongodb-org/4.4 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list'; sudo apt-get update ; sudo apt-get install libssl1.1=1.1.1f-1ubuntu2; sudo apt-get remove mongodb-server-core ; sudo apt-get install -y mongodb-org ; sudo systemctl start mongod ; sudo systemctl enable mongod"""], shell=True)
     if mongodb_install.returncode == 0:
         print("[+] MongoDB was installed successfully!  Starting the service...")
         start_mongodb_service = subprocess.run(["sudo service mongodb start"], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, shell=True)
@@ -456,7 +456,7 @@ def install_protonvpn():
     if download_protonvpn.returncode == 0:
         print("[+] ProtonVPN was installed successfully!")
     else:
-        print("[!] Something went wrong!  ProtonVPN was NOT installed successfully...")    
+        print("[!] Something went wrong!  ProtonVPN was NOT installed successfully...")
 
 def stray_license_file():
     home_dir = get_home_dir()
